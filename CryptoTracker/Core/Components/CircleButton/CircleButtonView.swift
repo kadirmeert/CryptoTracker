@@ -25,14 +25,26 @@ struct CircleButtonView: View {
     }
 }
 
-#Preview(traits: .sizeThatFitsLayout) {
-    Group {
-        CircleButtonView(iconName: "info")
-            .colorScheme(.light)
-        
-        CircleButtonView(iconName: "plus")
-            .colorScheme(.dark)
-
-
+//#Preview(traits: .sizeThatFitsLayout) {
+//    Group {
+//        CircleButtonView(iconName: "info")
+//            .colorScheme(.light)
+//        
+//        CircleButtonView(iconName: "plus")
+//            .colorScheme(.dark)
+//
+//
+//    }
+//}
+struct CircleButtonView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            CircleButtonView(iconName: "info")
+                .previewLayout(.sizeThatFits)
+            
+            CircleButtonView(iconName: "plus")
+                .previewLayout(.sizeThatFits)
+                .preferredColorScheme(.dark)
+        }
     }
 }
