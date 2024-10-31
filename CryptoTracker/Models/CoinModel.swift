@@ -16,13 +16,13 @@ import Foundation
 struct CoinModel: Identifiable, Codable {
     let id, symbol, name: String
     let image: String
-    let currentPrice: Double
-    let marketCap, marketCapRank, fullyDilutedValuation: Int?
-    let totalVolume, high24H, low24H: Int?
+    let currentPrice: Double?
+    let marketCap, marketCapRank, fullyDilutedValuation: Double?
+    let totalVolume, high24H, low24H: Double?
     let priceChange24H, priceChangePercentage24H: Double?
-    let marketCapChange24H: Int?
+    let marketCapChange24H: Double?
     let marketCapChangePercentage24H: Double?
-    let circulatingSupply, totalSupply, maxSupply, ath: Int?
+    let circulatingSupply, totalSupply, maxSupply, ath: Double?
     let athChangePercentage: Double?
     let athDate: String?
     let atl, atlChangePercentage: Double?
@@ -32,7 +32,7 @@ struct CoinModel: Identifiable, Codable {
     let priceChangePercentage24HInCurrency: Double?
     let currentHoldings: Double?
     
-    enum Codingkeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id, symbol, name, image
         case currentPrice = "current_price"
         case marketCap = "market_cap"
@@ -65,7 +65,7 @@ struct CoinModel: Identifiable, Codable {
     }
     
     var currentHoldingsValue: Double {
-        return (currentHoldings ?? 0) * currentPrice
+        return (currentHoldings ?? 0) * (currentPrice ?? 0)
     }
     
     var rank: Int {
