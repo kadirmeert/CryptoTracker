@@ -64,7 +64,7 @@ struct PortfolioView: View {
             .padding(4)
             .onTapGesture {
                 withAnimation(.easeIn) {
-                    selectedCoin = coin
+                    updateSelectedCoins(coin: coin)
                 }
             }
             .background(

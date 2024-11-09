@@ -95,6 +95,9 @@ extension HomeView {
             }
         }
         .listStyle(PlainListStyle())
+        .refreshable {
+            vm.reloadData()
+        }
     }
     
     private var portfolioCoinsList: some View {
@@ -105,6 +108,9 @@ extension HomeView {
             }
         }
         .listStyle(PlainListStyle())
+        .refreshable {
+            vm.reloadData()
+        }
     }
     
     private var columnTitles: some View {
