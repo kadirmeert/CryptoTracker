@@ -36,6 +36,11 @@ struct PortfolioView: View {
                     trallingNavButton
                 }
             }
+            .onChange(of: vm.searchText) { newValue in
+                if newValue == "" {
+                    removeSelectedCoin()
+                }
+            }
         }
     }
     
@@ -43,7 +48,7 @@ struct PortfolioView: View {
     private var coinsScrollView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 10) {
-                ForEach(vm.allCoins) { coin in
+                ForEach(vm.searchText.isEmpty ? vm.portfolioCoins : vm.allCoins) { coin in
                     coinLogoView(for: coin)
                 }
             }
@@ -66,6 +71,16 @@ struct PortfolioView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(selectedCoin?.id == coin.id ? Color.theme.green : Color.clear, lineWidth: 1)
             )
+    }
+    
+    private func updateSelectedCoins(coin: CoinModel) {
+        selectedCoin = coin
+        
+        if let portfolioCoins = vm.portfolioCoins.first(where: { $0.id == coin.id }), let amount = portfolioCoins.currentHoldings {
+            quantityText = "\(amount)"
+        } else {
+            quantityText = ""
+        }
     }
     
     private func getCurrentValue() -> Double {
@@ -117,9 +132,10 @@ struct PortfolioView: View {
     }
     
     private func saveButtonPressed() {
-        guard let coin = selectedCoin else { return }
+        guard let coin = selectedCoin, let amount = Double(quantityText) else { return }
         
         // save to portfolio
+        vm.updatePortfolio(coin: coin, amount: amount)
         
         // show checkmark
         withAnimation(.easeIn) {
